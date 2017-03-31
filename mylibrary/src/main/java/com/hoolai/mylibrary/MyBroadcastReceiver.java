@@ -14,6 +14,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String msg = intent.getExtras().getString("msg");
         Toast.makeText(context, "msg=" + msg, Toast.LENGTH_LONG).show();
-        context.startActivity(new Intent(context, NotificationActivity.class));
+        Intent intent1 = new Intent(context, NotificationActivity.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent1);
     }
 }
