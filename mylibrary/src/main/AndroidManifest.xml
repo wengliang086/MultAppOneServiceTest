@@ -10,7 +10,11 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <service android:name=".HoolaiPushService" />
+        <service
+            android:name=".HoolaiPushService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":hoolaiPush" />
         <activity android:name=".NotificationActivity" />
         <receiver android:name=".MyBroadcastReceiver">
             <intent-filter>

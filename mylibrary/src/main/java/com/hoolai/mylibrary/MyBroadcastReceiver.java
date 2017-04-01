@@ -3,6 +3,8 @@ package com.hoolai.mylibrary;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Process;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -12,6 +14,7 @@ import android.widget.Toast;
 public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(HoolaiPushService.TAG, "MyBroadcastReceiver" + " process id is " + Process.myPid());
         String msg = intent.getExtras().getString("msg");
         Toast.makeText(context, "msg=" + msg, Toast.LENGTH_LONG).show();
         Intent intent1 = new Intent(context, NotificationActivity.class);

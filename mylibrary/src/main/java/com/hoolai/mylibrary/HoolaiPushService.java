@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Process;
 import android.util.Log;
 
 import com.ibm.mqtt.IMqttClient;
@@ -24,7 +25,7 @@ public class HoolaiPushService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "onCreate: ");
+        Log.i(TAG, "onCreate: " + Process.myPid());
     }
 
     @Override
