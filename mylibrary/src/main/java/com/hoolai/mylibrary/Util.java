@@ -2,6 +2,8 @@ package com.hoolai.mylibrary;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import java.util.List;
@@ -20,10 +22,9 @@ public class Util {
      * @param serviceName 是包名+服务的类名（例如：net.loonggg.testbackstage.TestService）
      * @return true代表正在运行，false代表服务没有正在运行
      */
-    public boolean isServiceWork(Context mContext, String serviceName) {
+    public static boolean isServiceWork(Context mContext, String serviceName) {
         boolean isWork = false;
-        ActivityManager myAM = (ActivityManager) mContext
-                .getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager myAM = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(40);
         if (myList.size() <= 0) {
             return false;
@@ -43,4 +44,11 @@ public class Util {
         return isWork;
     }
 
+    public static void launchPackage(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+        if (intent != null) {
+            context.startActivity(intent);
+        }
+    }
 }

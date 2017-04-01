@@ -14,6 +14,9 @@ import com.ibm.mqtt.MqttClient;
 import com.ibm.mqtt.MqttException;
 import com.ibm.mqtt.MqttSimpleCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/3/31.
  */
@@ -21,6 +24,12 @@ import com.ibm.mqtt.MqttSimpleCallback;
 public class HoolaiPushService extends Service {
 
     public static final String TAG = "HoolaiPushService";
+    private static List<String> packageNames = new ArrayList<>();
+
+    static {
+        packageNames.add("com.hoolai.service.test");
+        packageNames.add("com.hoolai.multapp2");
+    }
 
     @Override
     public void onCreate() {
@@ -109,6 +118,12 @@ public class HoolaiPushService extends Service {
             intent.setAction("android.intent.action.MyBroadcastReceiver");
             intent.putExtra("msg", s);
             sendBroadcast(intent);
+
+            for (String packageName : packageNames) {
+                if (!HoolaiPushService.this.getPackageName().equals(packageName)) {
+                    Util.launchPackage(HoolaiPushService.this, packageName);
+                }
+            }
         }
 
     }
