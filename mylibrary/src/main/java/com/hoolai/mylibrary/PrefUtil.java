@@ -45,7 +45,6 @@ public class PrefUtil {
 
     private void save() {
         sp.edit().putStringSet(DATA_NMAE, packageSet).apply();
-        sync();
     }
 
     public Set<String> getAll() {
@@ -68,7 +67,7 @@ public class PrefUtil {
         save();
     }
 
-    private void sync() {
+    public void sync() {
         Intent intent = new Intent();
         intent.setAction(MyBroadcastReceiver.Sync_Action);
         intent.putStringArrayListExtra("set", new ArrayList<String>(getAll()));

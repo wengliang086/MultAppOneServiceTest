@@ -32,6 +32,7 @@ public class CommonSuperActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Set<String> set = PrefUtil.getInstance().getAll();
                 ((TextView) findViewById(R.id.tv_msg)).setText(set.toString());
+                Util.isServiceWork(CommonSuperActivity.this, "");
             }
         });
     }

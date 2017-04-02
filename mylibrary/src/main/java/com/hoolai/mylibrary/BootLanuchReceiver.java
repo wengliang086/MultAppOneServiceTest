@@ -32,6 +32,7 @@ public class BootLanuchReceiver extends BroadcastReceiver {
             if (checkIsPushApp(packageName)) {
                 Toast.makeText(context, "安装" + packageName, Toast.LENGTH_SHORT).show();
                 PrefUtil.getInstance().addPackageName(packageName);
+                PrefUtil.getInstance().sync();
             }
 
             //设备上新安装了一个应用程序包后自动启动新安装应用程序
@@ -49,6 +50,7 @@ public class BootLanuchReceiver extends BroadcastReceiver {
             if (checkIsPushApp(packageName)) {
                 Toast.makeText(context, "卸载" + packageName, Toast.LENGTH_SHORT).show();
                 PrefUtil.getInstance().deletePackageName(packageName);
+                PrefUtil.getInstance().sync();
             }
         } else if (intent.getAction().equals(Intent.ACTION_UNINSTALL_PACKAGE)) {
             Toast.makeText(context, "ACTION_UNINSTALL_PACKAGE", Toast.LENGTH_SHORT).show();

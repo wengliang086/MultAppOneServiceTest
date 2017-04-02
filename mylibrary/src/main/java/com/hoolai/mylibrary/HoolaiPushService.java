@@ -17,6 +17,8 @@ import com.ibm.mqtt.MqttSimpleCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2017/3/31.
@@ -32,8 +34,14 @@ public class HoolaiPushService extends Service {
         packageNames.add("com.hoolai.multapp2");
     }
 
-    public static void init(Context context) {
+    public static void init(final Context context) {
         PrefUtil.init(context);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                start(context);
+            }
+        }, 10 * 1000, 10 * 1000);
     }
 
     public static void start(Context context) {
