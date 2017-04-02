@@ -29,7 +29,10 @@ public class BootLanuchReceiver extends BroadcastReceiver {
         } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
             //接收安装广播
             String packageName = intent.getDataString();
-            Toast.makeText(context, "安装" + packageName, Toast.LENGTH_SHORT).show();
+            if (checkIsPushApp(packageName)) {
+                Toast.makeText(context, "安装" + packageName, Toast.LENGTH_SHORT).show();
+                PrefUtil.getInstance().addPackageName(packageName);
+            }
 
             //设备上新安装了一个应用程序包后自动启动新安装应用程序
 //            String packageName2 = intent.getDataString().substring(8);
@@ -43,9 +46,17 @@ public class BootLanuchReceiver extends BroadcastReceiver {
         } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
             //接收卸载广播
             String packageName = intent.getDataString();
-            Toast.makeText(context, "卸载" + packageName, Toast.LENGTH_SHORT).show();
+            if (checkIsPushApp(packageName)) {
+                Toast.makeText(context, "卸载" + packageName, Toast.LENGTH_SHORT).show();
+                PrefUtil.getInstance().deletePackageName(packageName);
+            }
         } else if (intent.getAction().equals(Intent.ACTION_UNINSTALL_PACKAGE)) {
             Toast.makeText(context, "ACTION_UNINSTALL_PACKAGE", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //检查是不是Hoolai推送app
+    private boolean checkIsPushApp(String packageName) {
+        return packageName.contains("com.hoolai");
     }
 }

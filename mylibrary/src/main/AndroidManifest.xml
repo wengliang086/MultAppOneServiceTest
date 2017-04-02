@@ -16,11 +16,14 @@
             android:enabled="true"
             android:exported="true"
             android:process=":hoolaiPush" />
+
         <activity android:name=".NotificationActivity" />
 
         <receiver android:name=".MyBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.MyBroadcastReceiver" />
+                <action android:name="android.intent.action.MyBroadcastReceiver.Msg" />
+                <action android:name="android.intent.action.MyBroadcastReceiver.Aysn" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -33,6 +36,12 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
+        <!--
+            <provider
+            android:name=".MyContentProvider"
+            android:authorities="com.zhuanghongji.app.MyContentProvider" />
+        -->
     </application>
 
 </manifest>

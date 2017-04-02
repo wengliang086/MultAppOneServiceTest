@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Process;
@@ -29,6 +30,19 @@ public class HoolaiPushService extends Service {
     static {
         packageNames.add("com.hoolai.service.test");
         packageNames.add("com.hoolai.multapp2");
+    }
+
+    public static void init(Context context) {
+        PrefUtil.init(context);
+    }
+
+    public static void start(Context context) {
+        if (!Util.isServiceWork(context, "com.hoolai.mylibrary.HoolaiPushService")) {
+            Intent intent = new Intent(context, HoolaiPushService.class);
+            context.startService(intent);
+        } else {
+            Log.i(TAG, "start: 已经有服务启动，跳过");
+        }
     }
 
     @Override
@@ -115,7 +129,7 @@ public class HoolaiPushService extends Service {
             String s = new String(payload);
 //            showNotification(s);
             Intent intent = new Intent();
-            intent.setAction("android.intent.action.MyBroadcastReceiver");
+            intent.setAction(MyBroadcastReceiver.Msg_Action);
             intent.putExtra("msg", s);
             sendBroadcast(intent);
 

@@ -12,23 +12,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.hoolai.mylibrary.CommonSuperActivity;
 import com.hoolai.mylibrary.HoolaiPushService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends CommonSuperActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d(HoolaiPushService.TAG, getString(R.string.app_name) + " process id is " + Process.myPid());
+//        setContentView(R.layout.activity_main);
+//        Log.d(HoolaiPushService.TAG, getString(R.string.app_name) + " process id is " + Process.myPid());
 
-        findViewById(R.id.btn_start_service).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HoolaiPushService.class);
-                startService(intent);
-            }
-        });
+//        HoolaiPushService.init(this);
+
+//        findViewById(R.id.btn_start_service).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                HoolaiPushService.start(MainActivity.this);
+//            }
+//        });
 
         try {
             //访问其他应用中的Preference
