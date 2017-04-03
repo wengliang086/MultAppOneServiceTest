@@ -15,8 +15,6 @@ import com.ibm.mqtt.MqttClient;
 import com.ibm.mqtt.MqttException;
 import com.ibm.mqtt.MqttSimpleCallback;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,12 +25,6 @@ import java.util.TimerTask;
 public class HoolaiPushService extends Service {
 
     public static final String TAG = "HoolaiPushService";
-    private static List<String> packageNames = new ArrayList<>();
-
-    static {
-        packageNames.add("com.hoolai.service.test");
-        packageNames.add("com.hoolai.multapp2");
-    }
 
     public static void init(final Context context) {
         PrefUtil.init(context);
@@ -129,21 +121,28 @@ public class HoolaiPushService extends Service {
             Log.i(TAG, "connectionLost: ");
         }
 
+        private boolean notification = true;
+
         /*
          * Called when we receive a message from the message broker.
          */
         public void publishArrived(String topicName, byte[] payload, int qos, boolean retained) {
             // Show a notification
             String s = new String(payload);
-//            showNotification(s);
-            Intent intent = new Intent();
-            intent.setAction(MyBroadcastReceiver.Msg_Action);
-            intent.putExtra("msg", s);
-            sendBroadcast(intent);
+            if (notification) {
+                for (String packageName : PrefUtil.getInstance().getAll()) {
+                    showNotification(s, packageName);
+                }
+            } else {
+                Intent intent = new Intent();
+                intent.setAction(MyBroadcastReceiver.Msg_Action);
+                intent.putExtra("msg", s);
+                sendBroadcast(intent);
 
-            for (String packageName : packageNames) {
-                if (!HoolaiPushService.this.getPackageName().equals(packageName)) {
-                    Util.launchPackage(HoolaiPushService.this, packageName);
+                for (String packageName : PrefUtil.getInstance().getAll()) {
+                    if (!HoolaiPushService.this.getPackageName().equals(packageName)) {
+                        Util.launchPackage(HoolaiPushService.this, packageName);
+                    }
                 }
             }
         }
@@ -151,8 +150,9 @@ public class HoolaiPushService extends Service {
     }
 
     // Display the topbar notification
-    private void showNotification(String text) {
-        PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, NotificationActivity.class), 0);
+    private void showNotification(String text, String packageName) {
+        Intent intent = Util.getLaunchIntentForPackage(HoolaiPushService.this, packageName);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
 
         Notification.Builder builder = new Notification.Builder(this);
         builder.setAutoCancel(true);

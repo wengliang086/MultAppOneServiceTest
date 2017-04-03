@@ -29,26 +29,31 @@ public class Util {
         if (myList.size() <= 0) {
             return false;
         }
-        TreeMap<String, String> map = new TreeMap<String, String>();
+        TreeMap<String, ActivityManager.RunningServiceInfo> map = new TreeMap<>();
         for (int i = 0; i < myList.size(); i++) {
-            String mName = myList.get(i).service.getClassName().toString();
-            map.put(mName, mName);
+            ActivityManager.RunningServiceInfo info = myList.get(i);
+            String mName = info.service.getClassName();
+            map.put(mName, info);
             if (mName.equals(serviceName)) {
                 isWork = true;
                 break;
             }
         }
-        for (String m : map.values()) {
-            Log.e("ServiceName:", m);
+        for (ActivityManager.RunningServiceInfo m : map.values()) {
+            Log.e("ServiceName:", m.service.getClassName() + " " + m.clientPackage + " " + m.process + " " + m.pid);
         }
         return isWork;
     }
 
     public static void launchPackage(Context context, String packageName) {
-        PackageManager packageManager = context.getPackageManager();
-        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+        Intent intent = getLaunchIntentForPackage(context, packageName);
         if (intent != null) {
             context.startActivity(intent);
         }
+    }
+
+    public static Intent getLaunchIntentForPackage(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        return packageManager.getLaunchIntentForPackage(packageName);
     }
 }

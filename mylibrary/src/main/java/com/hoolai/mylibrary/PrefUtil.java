@@ -72,5 +72,6 @@ public class PrefUtil {
         intent.setAction(MyBroadcastReceiver.Sync_Action);
         intent.putStringArrayListExtra("set", new ArrayList<String>(getAll()));
         mContext.sendBroadcast(intent);
+        L.e(mContext, "发送同步广播：" + getAll().toString());
     }
 }

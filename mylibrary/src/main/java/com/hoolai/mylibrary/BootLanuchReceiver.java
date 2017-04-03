@@ -14,7 +14,8 @@ import android.widget.Toast;
 public class BootLanuchReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "BootLanuchReceiver Action=" + intent.getAction(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "BootLanuchReceiver Action=" + intent.getAction(), Toast.LENGTH_LONG).show();
+        L.e(context, "BootLanuchReceiver Action=" + intent.getAction());
         SharedPreferences pref = context.getSharedPreferences("name", Context.MODE_PRIVATE);
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (pref.getBoolean("auto_start", true)) {
@@ -30,7 +31,8 @@ public class BootLanuchReceiver extends BroadcastReceiver {
             //接收安装广播
             String packageName = intent.getDataString();
             if (checkIsPushApp(packageName)) {
-                Toast.makeText(context, "安装" + packageName, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "安装" + packageName, Toast.LENGTH_SHORT).show();
+                L.e(context, "安装" + packageName);
                 PrefUtil.getInstance().addPackageName(packageName);
                 PrefUtil.getInstance().sync();
             }
@@ -48,7 +50,8 @@ public class BootLanuchReceiver extends BroadcastReceiver {
             //接收卸载广播
             String packageName = intent.getDataString();
             if (checkIsPushApp(packageName)) {
-                Toast.makeText(context, "卸载" + packageName, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "卸载" + packageName, Toast.LENGTH_SHORT).show();
+                L.e(context, "卸载" + packageName);
                 PrefUtil.getInstance().deletePackageName(packageName);
                 PrefUtil.getInstance().sync();
             }

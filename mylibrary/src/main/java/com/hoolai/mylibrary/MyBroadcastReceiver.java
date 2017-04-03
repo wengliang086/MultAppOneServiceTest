@@ -21,7 +21,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.d(HoolaiPushService.TAG, "MyBroadcastReceiver action=" + action + " process id is " + Process.myPid());
+        L.e(context, "接收到广播：action=" + action);
+        L.e(context, "MyBroadcastReceiver action=" + action + " process id is " + Process.myPid());
         if (action.equals(Msg_Action)) {
             String msg = intent.getExtras().getString("msg");
             Toast.makeText(context, "msg=" + msg, Toast.LENGTH_LONG).show();
